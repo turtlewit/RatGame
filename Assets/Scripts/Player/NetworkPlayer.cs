@@ -6,9 +6,18 @@ using Mirror;
 [AddComponentMenu("Player/NetworkPlayer")]
 public class NetworkPlayer : NetworkBehaviour
 {
+    public delegate void PlayerDeathDelegate();
+    public static PlayerDeathDelegate PlayerDeath;
+
     [Header("Objects in this list will only exist locally (e.g. the camera).")]
     [SerializeField]
     List<Object> LocalOnly = new List<Object>();
+
+    [SerializeField]
+    GameObject bulletPrefab;
+
+    [SerializeField]
+    Transform bulletSpawnPosition;
 
     void Start()
     {
@@ -25,5 +34,25 @@ public class NetworkPlayer : NetworkBehaviour
                 }
             }
         }
+    }
+
+    public override void OnNetworkDestroy()
+    {
+        Debug.Log("DEADGSA DGAZ ");
+        if (!isServer)
+            return;
+        PlayerDeath?.Invoke();
+    }
+
+    [Command]
+    public void CmdSpawnBullet()
+    {
+        var bullet = Instantiate(bulletPrefab, bulletSpawnPosition.position, bulletSpawnPosition.rotation);
+        if (bullet.GetComponent<Bullet>() is Bullet b)
+        {
+            b.SetIgnore(gameObject);
+        }
+        NetworkServer.Spawn(bullet);
+        Destroy(bullet, 10f);
     }
 }
