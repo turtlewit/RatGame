@@ -9,10 +9,6 @@ public class NetworkPlayer : NetworkBehaviour
     public delegate void PlayerDeathDelegate();
     public static PlayerDeathDelegate PlayerDeath;
 
-    [Header("Objects in this list will only exist locally (e.g. the camera).")]
-    [SerializeField]
-    List<Object> LocalOnly = new List<Object>();
-
     [SerializeField]
     GameObject bulletPrefab;
 
@@ -23,9 +19,6 @@ public class NetworkPlayer : NetworkBehaviour
     {
         if (!hasAuthority)
         {
-            foreach (var obj in LocalOnly)
-                Destroy(obj);
-            
             if (NetworkManager.singleton is NetworkManager manager)
             {
                 if (manager.GetComponent<NetworkManagerHUD>() is NetworkManagerHUD hud)
@@ -38,7 +31,6 @@ public class NetworkPlayer : NetworkBehaviour
 
     public override void OnNetworkDestroy()
     {
-        Debug.Log("DEADGSA DGAZ ");
         if (!isServer)
             return;
         PlayerDeath?.Invoke();

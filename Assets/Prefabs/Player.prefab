@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1744653170}
   - component: {fileID: 1744653169}
   - component: {fileID: 1744653168}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,12 +93,14 @@ GameObject:
   - component: {fileID: 8340876932221265502}
   - component: {fileID: 8107809999350759857}
   - component: {fileID: 2131260805753059189}
+  - component: {fileID: 291633725119241407}
   - component: {fileID: 2131260805753059184}
   - component: {fileID: 5480099468215534685}
   - component: {fileID: 441463322120876779}
   - component: {fileID: 8150165876172041512}
   - component: {fileID: 1637923081710422561}
-  m_Layer: 0
+  - component: {fileID: 6036957626348221097}
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,14 +183,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  LocalOnly:
+  bulletPrefab: {fileID: 6436841841287221112, guid: 58ff8814f97fbad1692cfb3415a01498,
+    type: 3}
+  bulletSpawnPosition: {fileID: 8557553947306297839}
+--- !u!114 &291633725119241407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131260805753059188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bff9ec0daa6fd8112a88966ee3f59d96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  deleteIfNotAuthority:
   - {fileID: 2131260805753059184}
   - {fileID: 441463322120876779}
   - {fileID: 5480099468215534685}
   - {fileID: 1637923081710422561}
-  bulletPrefab: {fileID: 6436841841287221112, guid: 58ff8814f97fbad1692cfb3415a01498,
-    type: 3}
-  bulletSpawnPosition: {fileID: 8557553947306297839}
 --- !u!114 &2131260805753059184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +273,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b617753f14ac2892880af8c2afdb86ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6036957626348221097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131260805753059188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b94ae6bfd2f055599b191481c6acb6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  cheeseCount: 0
 --- !u!1 &3462439642272353510
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8557553947306297839}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BulletSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}

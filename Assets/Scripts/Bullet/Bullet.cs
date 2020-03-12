@@ -30,11 +30,12 @@ public class Bullet : NetworkBehaviour
     {
         if (!hasAuthority || ignore == null || other.gameObject == ignore)
         {
-            Debug.Log($"Colliding {other.name}");
             return;
         }
 
-        Destroy(other.gameObject);
+        if (other.GetComponent<NetworkPlayer>() != null)
+            Destroy(other.gameObject);
+
         Destroy(gameObject);
     }
 }
