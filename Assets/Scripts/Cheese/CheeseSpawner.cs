@@ -25,4 +25,43 @@ public class CheeseSpawner : NetworkBehaviour
     [SerializeField]
     GameObject prefab;
 
+    [SerializeField]
+    int maxCheeseOnMap;
+
+    [SerializeField]
+    float spawnInterval;
+
+    float currentTime = 0;
+
+    void Start()
+    {
+        for (int i = 0; i < maxCheeseOnMap; ++i)
+            SpawnCheese();
+    }
+
+    void Update()
+    {
+        currentTime += Time.deltaTime;
+
+        if (currentTime > spawnInterval)
+        {
+            currentTime -= spawnInterval;
+            
+            int cheeseCount = FindObjectsOfType<Cheese>().Length;
+
+            if (cheeseCount < maxCheeseOnMap)
+                SpawnCheese();
+        }
+    }
+
+    void SpawnCheese()
+    {
+        var SpawnAreas = GetComponentsInChildren<CheeseSpawnArea>();
+        CheeseSpawnArea chosenArea = SpawnAreas[Random.Range(0, SpawnAreas.Length)];
+        Vector3 spawnPosition = chosenArea.GetRandomPosition();
+
+        var Cheese = Instantiate(prefab, spawnPosition, Quaternion.identity);
+        NetworkServer.Spawn(Cheese);
+    }
+
 }

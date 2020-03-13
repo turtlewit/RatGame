@@ -6,14 +6,29 @@ using Mirror;
 public class Cheese : NetworkBehaviour
 {
     [SerializeField]
+    Transform objectToRotate;
+
+    [SerializeField]
     float rotationSpeed;
+
+    [SerializeField]
+    float initialLaunchForce;
 
     public override void OnStartServer() 
     {
         if (GetComponent<Rigidbody>() is Rigidbody rigidbody)
         {
-            rigidbody.angularVelocity = new Vector3(0, rotationSpeed, 0);
+            // First, rotate the forward vector 75 degrees upwards (axis of rotation is right). Then, rotate it randomly about the vertical axis.
+            Quaternion rotation = Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.up) * Quaternion.AngleAxis(-75f, Vector3.right);
+            rigidbody.AddForce((rotation * Vector3.forward) * initialLaunchForce, ForceMode.Impulse);
         }
+    }
+
+    void Update()
+    {
+        Vector3 rotation = objectToRotate.eulerAngles;
+        rotation.y += rotationSpeed * Time.deltaTime;
+        objectToRotate.eulerAngles = rotation;
     }
 
     void OnTriggerEnter(Collider other)
