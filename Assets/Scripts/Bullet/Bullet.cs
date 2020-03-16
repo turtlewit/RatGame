@@ -33,8 +33,10 @@ public class Bullet : NetworkBehaviour
             return;
         }
 
-        if (other.GetComponent<NetworkPlayer>() != null)
-            Destroy(other.gameObject);
+        if (other.GetComponent<NetworkPlayer>() is NetworkPlayer player)
+        {
+            player.Shot();
+        }
 
         Destroy(gameObject);
     }

@@ -185,6 +185,8 @@ MonoBehaviour:
   syncInterval: 0.1
   bulletPrefab: {fileID: 6436841841287221112, guid: 58ff8814f97fbad1692cfb3415a01498,
     type: 3}
+  cheesePrefab: {fileID: 4015500898013935670, guid: f0c658273f01b67aba8ca9c079644965,
+    type: 3}
   bulletSpawnPosition: {fileID: 8557553947306297839}
 --- !u!114 &291633725119241407
 MonoBehaviour:
@@ -218,6 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  disableMovementSeconds: 2
   body: {fileID: 441463322120876779}
 --- !u!114 &5480099468215534685
 MonoBehaviour:
@@ -273,6 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b617753f14ac2892880af8c2afdb86ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableShootSeconds: 2
 --- !u!114 &6036957626348221097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,12 +286,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2131260805753059188}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b94ae6bfd2f055599b191481c6acb6b, type: 3}
+  m_Script: {fileID: 11500000, guid: d4f3ef837377917c79487a8a6ff09117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  cheeseCount: 0
 --- !u!1 &3462439642272353510
 GameObject:
   m_ObjectHideFlags: 0

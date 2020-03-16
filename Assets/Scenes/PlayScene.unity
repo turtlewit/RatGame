@@ -214,7 +214,7 @@ MonoBehaviour:
   serverOnly: 1
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1734618407
+  m_SceneId: 1457414444
 --- !u!4 &172748264
 Transform:
   m_ObjectHideFlags: 0
@@ -434,10 +434,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverOnly: 1
+  serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1009888797
+  m_SceneId: 884138290
 --- !u!4 &870864790
 Transform:
   m_ObjectHideFlags: 0
@@ -464,6 +464,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 634867aeac1fa908bb13f58baa04a1bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  rules: {fileID: 11400000, guid: 2b9d35baaffb8c8c589b404cf1a7e5ac, type: 2}
 --- !u!1 &929428530
 GameObject:
   m_ObjectHideFlags: 0
