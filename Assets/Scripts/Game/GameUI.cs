@@ -5,30 +5,32 @@ using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] textObjects;
+	[SerializeField]
+	private GameObject[] textObjects;
 
-    static GameUI singleton = null;
-
-
-    private GameUI()
-    {
-        if (singleton == null)
-            singleton = this;
-    }
+	private void OnEnable()
+	{
+		RoundManager.PlayerScoreChanged += SetPlayerScore;
+	}
 
 
-    static void SetPlayerScore(int player, int value)
-    {
-        singleton.textObjects[player].GetComponent<Text>().text = value.ToString();
-    }
+	private void OnDisable()
+	{
+		RoundManager.PlayerScoreChanged -= SetPlayerScore;
+	}
 
 
-    static void AddPlayerScore(int player, int amount)
-    {
-        Text obj = singleton.textObjects[player].GetComponent<Text>();
-        int current = int.Parse(obj.text);
-        current += amount;
-        obj.text = current.ToString();
-    }
+	private void SetPlayerScore(int player, int value)
+	{
+		textObjects[player].GetComponent<Text>().text = value.ToString();
+	}
+
+
+	private void AddPlayerScore(int player, int amount)
+	{
+		Text obj = textObjects[player].GetComponent<Text>();
+		int current = int.Parse(obj.text);
+		current += amount;
+		obj.text = current.ToString();
+	}
 }
