@@ -5,6 +5,9 @@ using Mirror;
 
 public class RoundManager : MonoBehaviour
 {
+    public delegate void PlayerScoreChangedDelegate(int player, int newScore);
+    public static event PlayerScoreChangedDelegate PlayerScoreChanged;
+
     int currentPlayers;
 
     void Start()
