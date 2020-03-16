@@ -8,6 +8,7 @@ public class NetworkPlayer : NetworkBehaviour
 {
     public delegate void PlayerSpawnDelegate(GameObject player);
     public static event PlayerSpawnDelegate PlayerSpawn;
+    public static event PlayerSpawnDelegate LocalPlayerSpawn;
 
     public delegate void PlayerShotDelegate();
     [SyncEvent]
@@ -40,6 +41,11 @@ public class NetworkPlayer : NetworkBehaviour
                 }
             }
         }
+    }
+
+    public override void OnStartAuthority()
+    {
+        LocalPlayerSpawn?.Invoke(gameObject);
     }
 
     public override void OnStartServer()
