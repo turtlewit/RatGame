@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 4015500898013935669}
   - component: {fileID: 4015500898013936072}
   - component: {fileID: 5944232153124948309}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Cheese
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,6 +165,7 @@ MonoBehaviour:
   deleteIfNotAuthority:
   - {fileID: 4015500898013935668}
   - {fileID: 4015500898013935669}
+  - {fileID: 2571890887480637508}
 --- !u!54 &4015500898013935668
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -179,7 +180,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 120
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &2571890887480637508
 BoxCollider:
@@ -211,6 +212,7 @@ MonoBehaviour:
   objectToRotate: {fileID: 8029683797100247172}
   rotationSpeed: 90
   initialLaunchForce: 5
+  pickupTrigger: {fileID: 624878099299942822}
 --- !u!114 &4015500898013936072
 MonoBehaviour:
   m_ObjectHideFlags: 0

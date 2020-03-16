@@ -3,26 +3,86 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class RoundManager : MonoBehaviour
+public class RoundManager : NetworkBehaviour
 {
     public delegate void PlayerScoreChangedDelegate(int player, int newScore);
-    public static event PlayerScoreChangedDelegate PlayerScoreChanged;
-
-    int currentPlayers;
-
-    void Start()
+    [SyncEvent]
+    private event PlayerScoreChangedDelegate EventPlayerScoreChanged;
+    public static event PlayerScoreChangedDelegate PlayerScoreChanged 
     {
-        NetworkPlayer[] players = FindObjectsOfType<NetworkPlayer>();
-        currentPlayers = players.Length;
-        NetworkPlayer.PlayerDeath += OnPlayerDeath;
+        add { Singleton.EventPlayerScoreChanged += value; }
+        remove { Singleton.EventPlayerScoreChanged -= value; }
     }
 
-    void OnPlayerDeath()
+    public delegate void GameWonDelegate(int player);
+    [SyncEvent]
+    private event GameWonDelegate EventGameWon;
+    public static event GameWonDelegate GameWon
     {
-        --currentPlayers;
-        if (currentPlayers == 1)
+        add { Singleton.EventGameWon += value; }
+        remove { Singleton.EventGameWon -= value; }
+    }
+
+    public static RoundManager Singleton { get; private set; }
+
+    [SerializeField]
+    GameRules rules;
+
+    Dictionary<GameObject, int> players = new Dictionary<GameObject, int>();
+
+    void Awake()
+    {
+        Singleton = this;
+    }
+
+    public override void OnStartServer()
+    {
+        // Must listen for events here because network behaviour has not been
+        // initialized when OnEnable is called. But we still need to handle enable
+        // and disable.
+        CheeseCountComponent.CheeseCountChanged += OnCheeseCountChanged;
+        NetworkPlayer.PlayerSpawn += OnPlayerSpawn;
+    }
+
+    void OnEnable()
+    {
+        if (!isServer)
+            return;
+        CheeseCountComponent.CheeseCountChanged += OnCheeseCountChanged;
+        NetworkPlayer.PlayerSpawn += OnPlayerSpawn;
+    }
+
+    void OnDisable()
+    {
+        if (!isServer)
+            return;
+        CheeseCountComponent.CheeseCountChanged -= OnCheeseCountChanged;
+        NetworkPlayer.PlayerSpawn -= OnPlayerSpawn;
+    }
+
+    [Server]
+    void OnCheeseCountChanged(GameObject player, int cheeseCount)
+    {
+        EventPlayerScoreChanged(players[player], cheeseCount);
+        if (cheeseCount >= rules.CheeseCountToWin) 
         {
-            NetworkManager.singleton.ServerChangeScene("Lobby");
+            Debug.Log($"Player {players[player]} won");
+            EventGameWon(players[player]);
+        }
+    }
+
+    [Server]
+    void OnPlayerSpawn(GameObject player)
+    {
+        if (player.GetComponent<NetworkPlayer>() is NetworkPlayer np)
+        {
+            int n = players.Count;
+            np.SetPlayerNumber(n);
+            players[player] = n;
+        }
+        else
+        {
+            Debug.Log($"OnPlayerSpawn argument player {player} has no NetworkPlayer component. This is pretty much impossible.");
         }
     }
 }
