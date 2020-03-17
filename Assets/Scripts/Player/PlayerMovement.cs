@@ -8,10 +8,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     float speed;
 
-    // Number of seconds to disable movement for when player is shot.
-    [SerializeField]
-    float disableMovementSeconds;
-
     [SerializeField]
     Rigidbody body;
 
@@ -32,15 +28,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void OnPlayerShot()
+    void OnPlayerShot(float seconds)
     {
         enabled = false;
-        StartCoroutine(EnableMovement());
+        StartCoroutine(EnableMovement(seconds));
     }
 
-    IEnumerator EnableMovement()
+    IEnumerator EnableMovement(float seconds)
     {
-        yield return new WaitForSeconds(disableMovementSeconds);
+        yield return new WaitForSeconds(seconds);
         enabled = true;
     }
 

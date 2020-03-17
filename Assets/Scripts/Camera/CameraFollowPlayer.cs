@@ -10,6 +10,9 @@ public class CameraFollowPlayer : MonoBehaviour
     [SerializeField]
     float mouseFactor;
 
+    [SerializeField]
+    Camera cam;
+
 
     Transform localPlayer;
 
@@ -34,7 +37,6 @@ public class CameraFollowPlayer : MonoBehaviour
         Vector3 playerPos = localPlayer.position;
         playerPos.y = 0;
 
-        Camera cam = GetComponent<Camera>();
         Vector3 mousePosition = new Vector3(Input.mousePosition.x, 0, Input.mousePosition.y);
         Vector3 offset = ((new Vector3(cam.pixelWidth, 0, cam.pixelHeight) / 2) - mousePosition) / 4.0f;
         offset *= -1;

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
-    [SerializeField]
-    float disableShootSeconds;
-
     NetworkPlayer player;
 
     void Start()
@@ -39,19 +36,19 @@ public class PlayerShoot : MonoBehaviour
         }
     }
 
-    void OnPlayerShot()
+    void OnPlayerShot(float seconds)
     {
         enabled = false;
         if (GetComponent<LookAtCursor>() is LookAtCursor c)
         {
             c.enabled = false;
         }
-        StartCoroutine(EnableMovement());
+        StartCoroutine(EnableMovement(seconds));
     }
 
-    IEnumerator EnableMovement()
+    IEnumerator EnableMovement(float seconds)
     {
-        yield return new WaitForSeconds(disableShootSeconds);
+        yield return new WaitForSeconds(seconds);
         if (GetComponent<LookAtCursor>() is LookAtCursor c)
         {
             c.enabled = true;

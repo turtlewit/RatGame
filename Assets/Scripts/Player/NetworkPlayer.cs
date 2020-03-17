@@ -7,12 +7,22 @@ using Mirror;
 public class NetworkPlayer : NetworkBehaviour
 {
     public delegate void PlayerSpawnDelegate(GameObject player);
+    public delegate void PlayerShotDelegate(float seconds);
+    public delegate void PlayerHasShotDelegate();
+    public delegate void PlayerCollectedCheeseDelegate();
+
+
     public static event PlayerSpawnDelegate PlayerSpawn;
     public static event PlayerSpawnDelegate LocalPlayerSpawn;
 
-    public delegate void PlayerShotDelegate();
     [SyncEvent]
     public event PlayerShotDelegate EventPlayerShot;
+
+    [SyncEvent]
+    public event PlayerHasShotDelegate EventPlayerHasShot;
+
+    [SyncEvent]
+    public event PlayerCollectedCheeseDelegate EventPlayerCollectedCheese;
 
 
     [SerializeField]
@@ -24,8 +34,15 @@ public class NetworkPlayer : NetworkBehaviour
     [SerializeField]
     Transform bulletSpawnPosition;
 
+    [SerializeField]
+    float stunnedSeconds;
+
     [SyncVar]
     int playerNumber;
+
+    [HideInInspector]
+    [SyncVar]
+    public bool Stunned = false;
 
     public int PlayerNumber { get => playerNumber; set {} }
 
@@ -69,6 +86,7 @@ public class NetworkPlayer : NetworkBehaviour
         }
         NetworkServer.Spawn(bullet);
         Destroy(bullet, 10f);
+        EventPlayerHasShot?.Invoke();
     }
 
     [Server]
@@ -95,7 +113,21 @@ public class NetworkPlayer : NetworkBehaviour
             Debug.LogError($"{gameObject.name}: Player has not CheeseCountComponent!");
         }
 
-        EventPlayerShot?.Invoke();
+        SetStunned(stunnedSeconds);
+        EventPlayerShot?.Invoke(stunnedSeconds);
+    }
+
+    IEnumerator SetStunned(float seconds)
+    {
+        Stunned = true;
+        yield return new WaitForSeconds(seconds);
+        Stunned = false;
+    }
+
+    [Server]
+    public void CollectCheese()
+    {
+        EventPlayerCollectedCheese?.Invoke();
     }
 
 }

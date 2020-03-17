@@ -6,17 +6,20 @@ using Mirror;
 public class RoundManager : NetworkBehaviour
 {
     public delegate void PlayerScoreChangedDelegate(int player, int newScore);
+    public delegate void GameWonDelegate(int player);
+
     [SyncEvent]
     private event PlayerScoreChangedDelegate EventPlayerScoreChanged;
+
+    [SyncEvent]
+    private event GameWonDelegate EventGameWon;
+
     public static event PlayerScoreChangedDelegate PlayerScoreChanged 
     {
         add { Singleton.EventPlayerScoreChanged += value; }
         remove { Singleton.EventPlayerScoreChanged -= value; }
     }
 
-    public delegate void GameWonDelegate(int player);
-    [SyncEvent]
-    private event GameWonDelegate EventGameWon;
     public static event GameWonDelegate GameWon
     {
         add { Singleton.EventGameWon += value; }
