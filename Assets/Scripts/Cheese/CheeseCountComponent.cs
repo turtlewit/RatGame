@@ -12,6 +12,11 @@ public class CheeseCountComponent : NetworkBehaviour
     [SyncVar]
     int cheeseCount;
 
+    void Start()
+    {
+        CheeseCountChanged?.Invoke(gameObject, cheeseCount);
+    }
+
     public int CheeseCount 
     {
         get => cheeseCount; 
