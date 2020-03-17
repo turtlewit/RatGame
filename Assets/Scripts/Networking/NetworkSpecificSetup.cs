@@ -19,5 +19,6 @@ public class NetworkSpecificSetup : NetworkBehaviour
                 Destroy(obj);
             }
         }
+        Destroy(this);
     }
 }
