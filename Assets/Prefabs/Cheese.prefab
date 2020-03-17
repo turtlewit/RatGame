@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4870758207479202026}
   - component: {fileID: 6442907794373286052}
   - component: {fileID: 6086747276989787418}
-  - component: {fileID: 624878099299942822}
   m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
@@ -80,20 +79,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &624878099299942822
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 624878099299942823}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5495902117074765545, guid: c26ceecbe57e6bf4f9529f942e08d27e, type: 3}
 --- !u!1 &4015500898013935670
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,10 +194,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  objectToRotate: {fileID: 8029683797100247172}
+  objectToRotate: {fileID: 4870758207479202026}
   rotationSpeed: 90
   initialLaunchForce: 5
-  pickupTrigger: {fileID: 624878099299942822}
+  pickupTrigger: {fileID: 7348784142887701570}
 --- !u!114 &4015500898013936072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +238,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8029683797100247172}
+  - component: {fileID: 7348784142887701570}
   m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
@@ -275,3 +261,16 @@ Transform:
   m_Father: {fileID: 4015500898013936073}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &7348784142887701570
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6427889038833240727}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.99
+  m_Center: {x: 0.01, y: 1.02, z: 0.24}

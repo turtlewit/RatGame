@@ -8,7 +8,7 @@ public class GameUI : MonoBehaviour
 	[SerializeField]
 	private GameObject[] textObjects;
 
-	private void OnEnable()
+	private void Start()
 	{
 		RoundManager.PlayerScoreChanged += SetPlayerScore;
 	}

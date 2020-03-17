@@ -9,7 +9,7 @@ public class SwitchToLobby : MonoBehaviour
     void Start()
     {
         if (NetworkManager.singleton == null)
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0, UnityEngine.SceneManagement.LoadSceneMode.Single);
         else
             Destroy(gameObject);
     }

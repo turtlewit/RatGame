@@ -33,7 +33,7 @@ public class Cheese : NetworkBehaviour
 
     IEnumerator EnableTrigger()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         pickupTrigger.enabled = true;
     }
 
