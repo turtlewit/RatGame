@@ -20,7 +20,7 @@ Shader "Custom/OutlineShader"
 
         CGPROGRAM
         // Physically based Standard lighting model, and enable shadows on all light types
-        #pragma surface surf Standard vertex:vert noshadow alpha:fade
+        #pragma surface surf Standard vertex:vert noshadow alpha:fade finalcolor:mycolor
 
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 4.0
@@ -82,6 +82,11 @@ Shader "Custom/OutlineShader"
             o.Alpha = c.r;
             //o.Alpha = c.a;
         }
+        void mycolor (Input IN, SurfaceOutputStandard o, inout fixed4 color)
+        {
+            color = _Color;
+        }
+
         ENDCG
     }
     FallBack "Diffuse"
