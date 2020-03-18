@@ -274,7 +274,9 @@ MonoBehaviour:
   cheesePrefab: {fileID: 4015500898013935670, guid: f0c658273f01b67aba8ca9c079644965,
     type: 3}
   bulletSpawnPosition: {fileID: 8557553947306297839}
-  stunnedSeconds: 0
+  stunnedSeconds: 2
+  colors: {fileID: 11400000, guid: 7c38688da3027f88c991c9cdf6329a9c, type: 2}
+  render: {fileID: 1053921175049765538}
   Stunned: 0
 --- !u!114 &291633725119241407
 MonoBehaviour:

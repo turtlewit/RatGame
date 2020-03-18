@@ -37,6 +37,12 @@ public class NetworkPlayer : NetworkBehaviour
     [SerializeField]
     float stunnedSeconds;
 
+    [SerializeField]
+    TeamColors colors;
+
+    [SerializeField]
+    MeshRenderer render;
+
     [SyncVar]
     int playerNumber;
 
@@ -48,6 +54,13 @@ public class NetworkPlayer : NetworkBehaviour
 
     void Start()
     {
+        if (isServer)
+        {
+            Material m = render.material;
+            int team = RoundManager.Singleton.GetTeam(gameObject);
+            m.color = colors.colors[team];
+            RpcSetMaterial(team);
+        }
         if (!hasAuthority)
         {
             if (NetworkManager.singleton is NetworkManager manager)
@@ -58,6 +71,14 @@ public class NetworkPlayer : NetworkBehaviour
                 }
             }
         }
+    }
+
+    [ClientRpc]
+    void RpcSetMaterial(int team)
+    {
+        Debug.Log("Here!");
+        Material m = render.material;
+        m.color = colors.colors[team];
     }
 
     public override void OnStartAuthority()

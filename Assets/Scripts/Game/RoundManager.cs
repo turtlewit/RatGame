@@ -38,6 +38,11 @@ public class RoundManager : NetworkBehaviour
         Singleton = this;
     }
 
+    public int GetTeam(GameObject obj)
+    {
+        return players[obj];
+    }
+
     public override void OnStartServer()
     {
         // Must listen for events here because network behaviour has not been
