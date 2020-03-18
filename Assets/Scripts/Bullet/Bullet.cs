@@ -38,6 +38,10 @@ public class Bullet : NetworkBehaviour
             player.Shot();
         }
 
+        var particles = Instantiate(data.hitVFX, transform.position, Quaternion.AngleAxis(-90, Vector3.right));
+        NetworkServer.Spawn(particles);
+        Destroy(particles, 1);
+
         Destroy(gameObject);
     }
 }

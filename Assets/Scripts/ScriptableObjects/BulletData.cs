@@ -6,4 +6,5 @@ using UnityEngine;
 public class BulletData : ScriptableObject
 {
     public float speed;
+    public GameObject hitVFX;
 }

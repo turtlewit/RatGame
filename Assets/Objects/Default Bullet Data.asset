@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Default Bullet Data
   m_EditorClassIdentifier: 
   speed: 10
+  hitVFX: {fileID: 1010677908817121806, guid: 4d349ba6bdb788b4e8aa5af4b98594a2, type: 3}
