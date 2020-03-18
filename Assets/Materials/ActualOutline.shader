@@ -3,6 +3,7 @@
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)
+        _Scale ("Scale", Float) = 1
     }
     SubShader
     {
@@ -23,6 +24,7 @@
             struct appdata
             {
                 float4 vertex : POSITION;
+                float4 normal : NORMAL;
             };
 
             struct v2f
@@ -32,11 +34,14 @@
             };
 
             fixed4 _Color;
+            float _Scale;
 
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
+                float4 vert = v.vertex;
+                vert.xyz = vert.xyz + (v.normal * _Scale);
+                o.vertex = UnityObjectToClipPos(vert);
                 //o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 //UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;

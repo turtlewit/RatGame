@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
-public class GameUI : MonoBehaviour
+public class GameUI : NetworkBehaviour
 {
 	[SerializeField]
 	private GameObject[] textObjects;

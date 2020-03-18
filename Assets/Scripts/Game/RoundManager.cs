@@ -28,6 +28,8 @@ public class RoundManager : NetworkBehaviour
 
     public static RoundManager Singleton { get; private set; }
 
+    public static int Winner { get; private set; } = -1;
+
     [SerializeField]
     GameRules rules;
 
@@ -75,6 +77,7 @@ public class RoundManager : NetworkBehaviour
         if (cheeseCount >= rules.CheeseCountToWin) 
         {
             Debug.Log($"Player {players[player]} won");
+            Winner = players[player];
             EventGameWon(players[player]);
         }
     }

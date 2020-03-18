@@ -9,6 +9,7 @@ public class CheeseCountComponent : NetworkBehaviour
     public delegate void CheeseCountChangedDelegate(GameObject player, int newCount);
     public static event CheeseCountChangedDelegate CheeseCountChanged;
 
+    [SerializeField]
     [SyncVar]
     int cheeseCount;
 

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 911ed80a694707fcd994a77e72b0bdec, type: 3}
   m_Name: Game Rules
   m_EditorClassIdentifier: 
-  CheeseCountToWin: 10
+  CheeseCountToWin: 100

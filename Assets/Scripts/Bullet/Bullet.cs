@@ -28,19 +28,24 @@ public class Bullet : NetworkBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (!hasAuthority || ignore == null || other.gameObject == ignore)
+        if (!hasAuthority || ignore == null || (other.GetComponent<PlayerCollider>() != null && other.GetComponent<PlayerCollider>().player.gameObject == ignore))
         {
             return;
         }
 
-        if (other.GetComponent<NetworkPlayer>() is NetworkPlayer player)
+        if (other.GetComponent<PlayerCollider>() != null && other.GetComponent<PlayerCollider>().player is NetworkPlayer player)
         {
             player.Shot();
+        }
+        else
+        {
+            WallHitAudio.Singleton.Play(transform.position);
         }
 
         var particles = Instantiate(data.hitVFX, transform.position, Quaternion.AngleAxis(-90, Vector3.right));
         NetworkServer.Spawn(particles);
         Destroy(particles, 1);
+
 
         Destroy(gameObject);
     }

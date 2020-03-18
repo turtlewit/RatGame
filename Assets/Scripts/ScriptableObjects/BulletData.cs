@@ -7,4 +7,5 @@ public class BulletData : ScriptableObject
 {
     public float speed;
     public GameObject hitVFX;
+    public AudioClip[] clips;
 }

@@ -46,7 +46,9 @@ public class Cheese : NetworkBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<CheeseCountComponent>() is CheeseCountComponent cheese && other.GetComponent<NetworkPlayer>() is NetworkPlayer player)
+        if (!hasAuthority)
+            return;
+        if (other.GetComponent<PlayerCollider>() is PlayerCollider c && c.player.GetComponent<CheeseCountComponent>() is CheeseCountComponent cheese && c.player is NetworkPlayer player)
         {
             if (player.Stunned == true)
                 return;

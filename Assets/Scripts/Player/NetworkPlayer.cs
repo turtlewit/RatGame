@@ -24,6 +24,8 @@ public class NetworkPlayer : NetworkBehaviour
     [SyncEvent]
     public event PlayerCollectedCheeseDelegate EventPlayerCollectedCheese;
 
+    public static NetworkPlayer LocalPlayer;
+
 
     [SerializeField]
     GameObject bulletPrefab;
@@ -41,25 +43,37 @@ public class NetworkPlayer : NetworkBehaviour
     TeamColors colors;
 
     [SerializeField]
+    TeamColors brightColors;
+
+    [SerializeField]
     MeshRenderer render;
+
+    [SerializeField]
+    MeshRenderer outline;
 
     [SyncVar]
     int playerNumber;
 
     [HideInInspector]
-    [SyncVar]
+//    [SyncVar]
     public bool Stunned = false;
+
+    bool Invuln = false;
 
     public int PlayerNumber { get => playerNumber; set {} }
 
     void Start()
     {
-        if (isServer)
+        if (true)
         {
-            Material m = render.material;
-            int team = RoundManager.Singleton.GetTeam(gameObject);
-            m.color = colors.colors[team];
-            RpcSetMaterial(team);
+            Material[] m = render.materials;
+            //int team = RoundManager.Singleton.GetTeam(gameObject);
+            int team = playerNumber;
+            foreach (var mat in m)
+                mat.color = colors.colors[team];
+            m = outline.materials;
+            foreach (var mat in m)
+                mat.color = brightColors.colors[team];
         }
         if (!hasAuthority)
         {
@@ -73,16 +87,28 @@ public class NetworkPlayer : NetworkBehaviour
         }
     }
 
+    [Command]
+    void CmdSetMyMat()
+    {
+        int team = RoundManager.Singleton.GetTeam(gameObject);
+        RpcSetMaterial(team);
+    }
+
     [ClientRpc]
     void RpcSetMaterial(int team)
     {
         Debug.Log("Here!");
-        Material m = render.material;
-        m.color = colors.colors[team];
+        Material[] m = render.materials;
+        foreach (var mat in m)
+            mat.color = colors.colors[team];
+        m = outline.materials;
+        foreach (var mat in m)
+            mat.color = brightColors.colors[team];
     }
 
     public override void OnStartAuthority()
     {
+        LocalPlayer = this;
         LocalPlayerSpawn?.Invoke(gameObject);
     }
 
@@ -119,6 +145,12 @@ public class NetworkPlayer : NetworkBehaviour
     [Server]
     public void Shot()
     {
+        if (Invuln)
+            return;
+
+        StartCoroutine(SetStunned(stunnedSeconds));
+        StartCoroutine(SetInvuln(stunnedSeconds + 1));
+
         if (GetComponent<CheeseCountComponent>() is CheeseCountComponent cheese)
         {
             int cheeseLost = cheese.CheeseCount / 2;
@@ -133,8 +165,6 @@ public class NetworkPlayer : NetworkBehaviour
         {
             Debug.LogError($"{gameObject.name}: Player has not CheeseCountComponent!");
         }
-
-        SetStunned(stunnedSeconds);
         EventPlayerShot?.Invoke(stunnedSeconds);
     }
 
@@ -145,10 +175,29 @@ public class NetworkPlayer : NetworkBehaviour
         Stunned = false;
     }
 
+    IEnumerator SetInvuln(float seconds)
+    {
+        Invuln = true;
+        yield return new WaitForSeconds(seconds);
+        Invuln = false;
+    }
+
     [Server]
     public void CollectCheese()
     {
         EventPlayerCollectedCheese?.Invoke();
+    }
+
+    [Client]
+    public void Restart()
+    {
+        CmdRestart();
+    }
+
+    [Command]
+    void CmdRestart()
+    {
+        NetworkManager.singleton.ServerChangeScene("Lobby");
     }
 
 }

@@ -55,14 +55,14 @@ Shader "Custom/OutlineShader"
 
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
-            //float2 dUV = (IN.screenPos.xy / IN.screenPos.w);
+            float2 dUV = (IN.screenPos.xy / IN.screenPos.w);
             //dUV.x *= (-(_ScreenParams.x / _ScreenParams.y) + (16 / 9));
             ////dUV.x *= 9/16;
-            //float otherDepth = tex2D(_DepthInput, dUV).r;
-            //otherDepth = DECODE_EYEDEPTH(otherDepth);
-            //float inFront = otherDepth - IN.depth; // negative if in front
-            //if (-inFront <= 0)
-            //    discard;
+            float otherDepth = tex2D(_DepthInput, dUV).r;
+            otherDepth = DECODE_EYEDEPTH(otherDepth);
+            float inFront = otherDepth - IN.depth; // negative if in front
+            if (-inFront <= 0)
+                discard;
             // Albedo comes from a texture tinted by color
             //fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
             //fixed4 c = tex2D (_DepthInput, IN.screenUV.xy / IN.screenUV.w);
